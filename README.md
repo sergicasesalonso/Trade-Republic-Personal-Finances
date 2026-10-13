@@ -4,19 +4,20 @@ Programa local que descarga los datos de tu cuenta de Trade Republic con
 [pytr](https://github.com/pytr-org/pytr) y te muestra un dashboard de finanzas
 personales:
 
-- **Resumen**: ingresos, gastos, ahorro y tasa de ahorro del mes; efectivo,
-  cartera y patrimonio total; evolución de los últimos 12 meses.
-- **Gastos por categoría**: reparto del mes, comparación con el mes anterior,
-  evolución por categoría y comercios donde más gastas.
-- **Objetivos y gasto diario**: objetivo de ahorro mensual o límite de gasto,
-  límites por categoría y **cuánto puedes gastar cada día** para cumplirlos.
-  Los gastos fijos (alquiler, facturas...) se reservan aparte y no te bajan el
+- **Inicio**: cuánto puedes gastar hoy, cómo vas respecto al ritmo del mes,
+  ingresos, gastos, ahorro y patrimonio, últimos movimientos y los últimos 12 meses.
+- **Gastos**: total del mes frente al anterior, ranking por categoría (pulsa una
+  para ver sus movimientos), comercios donde más gastas y evolución por categoría.
+- **Objetivos**: objetivo de ahorro mensual o límite de gasto, límites por
+  categoría y **cuánto puedes gastar cada día** para cumplirlos. Los gastos
+  fijos (alquiler, facturas...) se reservan aparte y no te bajan el
   presupuesto diario.
-- **Movimientos**: buscador y edición de la categoría de cada movimiento (con
-  opción de crear una regla para ese comercio).
-- **Cartera**: posiciones, valor, coste y ganancia latente.
-- **Categorías y reglas**: crea categorías, marca cuáles son fijas o excluidas
-  (p. ej. traspasos entre tus cuentas) y añade reglas automáticas.
+- **Movimientos**: lista agrupada por día con buscador y filtro, y un modo
+  «Editar categorías» (con opción de crear una regla para ese comercio).
+- **Cartera**: valor, ganancia latente, evolución del patrimonio, posiciones y
+  distribución.
+- **Ajustes**: datos de ejemplo, estado de la sincronización, categorías (fijas
+  o excluidas, p. ej. traspasos entre tus cuentas) y reglas automáticas.
 
 Todo se guarda en `data/` (una base SQLite) en tu ordenador y está excluido de git.
 
@@ -64,8 +65,13 @@ python -m finanzas.sync --demo            # datos de ejemplo en data/demo
 streamlit run app.py
 ```
 
-Se abre en http://localhost:8501. En la barra lateral puedes cambiar de mes o
-activar los datos de ejemplo.
+Se abre en http://localhost:8501. El mes se elige arriba a la derecha de cada
+página y se mantiene al cambiar de página; los datos de ejemplo se activan en
+Ajustes. El tema (claro u oscuro) sigue al de tu sistema.
+
+El diseño imita el lenguaje visual de Trade Republic: los tokens están en
+`design/DESIGN.md`, el CSS en `finanzas/ui/theme.css` y los componentes en
+`finanzas/ui/`.
 
 ## Cómo se calcula el gasto diario
 
