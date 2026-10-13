@@ -19,3 +19,7 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+
+# Capturas de diseño (contienen datos financieros personales)
+design/reference/
+design/screenshots/
