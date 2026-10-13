@@ -1,0 +1,3 @@
+[server]
+# Solo accesible desde este ordenador, no desde la red local
+address = "localhost"
