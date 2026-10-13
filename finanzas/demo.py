@@ -64,6 +64,18 @@ def generate_events(months: int = 6, seed: int = 7) -> list[dict]:
     return events
 
 
+def _add_snapshot_history(conn, cash: float, invested: float, weeks: int = 26, seed: int = 7) -> None:
+    """Sincronizaciones semanales anteriores (paseo aleatorio hacia atrás desde
+    los valores actuales), para que la evolución del patrimonio tenga datos."""
+    rnd = random.Random(seed)
+    now = datetime.now().replace(microsecond=0)
+    for w in range(1, weeks + 1):
+        invested = invested / (1 + rnd.gauss(0.004, 0.02)) - 70  # aportación del plan
+        cash = max(cash - rnd.gauss(25, 90), 500.0)
+        conn.execute("INSERT OR REPLACE INTO snapshots(taken_at, cash, invested) VALUES (?, ?, ?)",
+                     ((now - timedelta(weeks=w)).isoformat(), round(cash, 2), round(invested, 2)))
+
+
 def build_demo() -> None:
     demo_dir = config.DATA_DIR / "demo"
     demo_dir.mkdir(parents=True, exist_ok=True)
@@ -81,6 +93,7 @@ def build_demo() -> None:
             {"isin": "XF000BTC0017", "name": "Bitcoin", "quantity": 0.012,
              "price": 58000.0, "avg_cost": 41000.0, "net_value": 696.0},
         ], cash=3120.55, taken_at=datetime.now().isoformat(timespec="seconds"))
+        _add_snapshot_history(conn, cash=3120.55, invested=6139.8)
         db.set_budget(conn, "*", db.SAVINGS, 500)
         db.set_budget(conn, "*", "Restaurantes y bares", 180)
         db.set_budget(conn, "*", "Supermercado", 300)

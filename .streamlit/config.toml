@@ -1,3 +1,66 @@
 [server]
 # Solo accesible desde este ordenador, no desde la red local
 address = "localhost"
+enableStaticServing = true
+
+[client]
+# Sin botón de deploy ni menú de desarrollador
+toolbarMode = "minimal"
+
+# Tokens en design/DESIGN.md (sacados del sistema de diseño de Trade Republic)
+[theme]
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap, system-ui, sans-serif"
+headingFont = "Inter, system-ui, sans-serif"
+baseFontSize = 15
+baseFontWeight = 400
+headingFontSizes = ["28px", "20px", "16px", "15px", "13px", "13px"]
+headingFontWeights = [700, 600, 600, 500, 500, 500]
+metricValueFontSize = "20px"
+metricValueFontWeight = 600
+baseRadius = "8px"
+buttonRadius = "6px"
+showWidgetBorder = true
+showSidebarBorder = false
+linkUnderline = false
+
+[theme.dark]
+primaryColor = "#FFFFFF"
+backgroundColor = "#000000"
+secondaryBackgroundColor = "#151515"
+textColor = "#FFFFFF"
+linkColor = "#FFFFFF"
+borderColor = "#2E2F30"
+dataframeBorderColor = "#202020"
+dataframeHeaderBackgroundColor = "#000000"
+dataframeHeaderTextColor = "#93969A"
+codeBackgroundColor = "#202020"
+greenColor = "#02CA50"
+greenTextColor = "#02CA50"
+greenBackgroundColor = "#02CA5033"
+redColor = "#FF4034"
+redTextColor = "#FF4034"
+redBackgroundColor = "#FF403433"
+grayColor = "#93969A"
+grayTextColor = "#93969A"
+chartCategoricalColors = ["#FFFFFF", "#B5B7BA", "#93969A", "#6A6B6D", "#4A4C4F", "#E6E7E9", "#3F4041", "#2E2F30"]
+
+[theme.light]
+primaryColor = "#202020"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F2F3F4"
+textColor = "#000000"
+linkColor = "#000000"
+borderColor = "#B5B7BA"
+dataframeBorderColor = "#E6E7E9"
+dataframeHeaderBackgroundColor = "#FFFFFF"
+dataframeHeaderTextColor = "#6A6B6D"
+codeBackgroundColor = "#F2F3F4"
+greenColor = "#007A35"
+greenTextColor = "#007A35"
+greenBackgroundColor = "#007A3522"
+redColor = "#C9241A"
+redTextColor = "#C9241A"
+redBackgroundColor = "#C9241A22"
+grayColor = "#6A6B6D"
+grayTextColor = "#6A6B6D"
+chartCategoricalColors = ["#000000", "#4A4C4F", "#6A6B6D", "#93969A", "#B5B7BA", "#2E2F30", "#3F4041", "#E6E7E9"]
