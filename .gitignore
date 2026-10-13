@@ -1,0 +1,21 @@
+# Datos personales: nunca se suben
+data/
+*.db
+*.sqlite
+all_events.json
+account_transactions.*
+portfolio.csv
+
+# Credenciales / sesiones (pytr las guarda en ~/.pytr, pero por si acaso)
+.pytr/
+credentials
+cookies*.txt
+.env
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
