@@ -2,7 +2,7 @@
 
 Uso Trade Republic como cuenta principal y quería controlar mis gastos, pero
 ninguna app de finanzas personales se conecta a Trade Republic de forma
-automática. Así que me hice la mía. Esto es solo un rpoyecto personal que no pretendo deployear,
+automática. Así que me hice la mía. Esto es solo un proyecto personal que no pretendo deployear,
 a no ser que exista interés para ello.
 
 He intentado que tenga la misma UI que la original de Trade Republic. 
