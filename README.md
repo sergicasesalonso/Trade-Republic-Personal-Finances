@@ -2,7 +2,10 @@
 
 Uso Trade Republic como cuenta principal y quería controlar mis gastos, pero
 ninguna app de finanzas personales se conecta a Trade Republic de forma
-automática. Así que me hice la mía.
+automática. Así que me hice la mía. Esto es solo un rpoyecto personal que no pretendo deployear,
+a no ser que exista interés para ello.
+
+He intentado que tenga la misma UI que la original de Trade Republic. 
 
 Es un programa que corre en mi ordenador: descarga los movimientos de mi cuenta
 con [pytr](https://github.com/pytr-org/pytr) y me enseña un dashboard con mis
