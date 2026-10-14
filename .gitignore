@@ -23,3 +23,7 @@ venv/
 # Capturas de diseño (contienen datos financieros personales)
 design/reference/
 design/screenshots/
+
+.gitignore
+.claude/
+
