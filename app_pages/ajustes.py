@@ -21,8 +21,8 @@ else:
                if not d.snapshots.empty else ""))
 with st.expander("Cómo sincronizar con Trade Republic"):
     st.markdown(
-        "1. Inicia sesión una vez (te pedirá teléfono, PIN y código 2FA):\n"
-        "   ```\n   pytr login --store_credentials\n   ```\n"
+        "1. Inicia sesión una vez (te pedirá teléfono y PIN, y lo confirmas en la app de Trade Republic):\n"
+        "   ```\n   pytr login --store_credentials --v2\n   ```\n"
         "2. Descarga tus movimientos y tu cartera:\n"
         "   ```\n   python -m finanzas.sync\n   ```\n"
         "Para probar sin cuenta: `python -m finanzas.sync --demo`."

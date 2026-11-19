@@ -92,3 +92,18 @@ def test_fixed_expenses_are_reserved_not_spread(tmp_path):
     assert plan.fixed_paid == 0 and plan.fixed_expected == 700   # alquiler aún no cobrado
     assert plan.variable_budget == 600
     assert plan.per_day == pytest.approx((600 - 100) / 20)
+
+
+def test_repair_pytr_cookies_moves_only_corrupt_files(tmp_path):
+    from finanzas.sync import repair_pytr_cookies
+
+    header = "# Netscape HTTP Cookie File\n\n"
+    good = tmp_path / "cookies.ok.txt"
+    good.write_text(header + ".example.com\tTRUE\t/\tTRUE\t0\tname\tvalue\n")
+    bad = tmp_path / "cookies.bad.txt"
+    bad.write_text(header + ".example.com\tTRUE\t/\tTRUE\t0\tname\tvalue\nfragmento-suelto\n")
+
+    moved = repair_pytr_cookies(tmp_path)
+
+    assert moved == [tmp_path / "cookies.bad.txt.corrupt"]
+    assert good.exists() and not bad.exists()

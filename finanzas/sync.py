@@ -5,8 +5,8 @@ Uso:
     python -m finanzas.sync --solo-importar # reimporta data/raw/all_events.json sin conectarse
     python -m finanzas.sync --demo          # genera datos de ejemplo (sin cuenta)
 
-Antes de la primera sincronización ejecuta tú mismo ``pytr login --store_credentials``
-(te pedirá teléfono, PIN y el código 2FA). pytr guarda la sesión en ~/.pytr;
+Antes de la primera sincronización ejecuta tú mismo ``pytr login --store_credentials --v2``
+(te pedirá teléfono y PIN, y tendrás que confirmar el acceso en la app de Trade Republic). pytr guarda la sesión en ~/.pytr;
 este programa nunca lee ni guarda tus credenciales.
 """
 
@@ -16,6 +16,8 @@ import re
 import subprocess
 import sys
 from datetime import datetime
+from http.cookiejar import LoadError, MozillaCookieJar
+from pathlib import Path
 
 from . import config, db
 from .importer import load_events, load_portfolio_csv
@@ -25,7 +27,8 @@ def run_pytr(args: list[str]) -> tuple[int, str]:
     """Ejecuta pytr mostrando su salida en vivo (por si pide el código 2FA) y la devuelve."""
     env = {**os.environ, "PYTHONUNBUFFERED": "1", "PYTHONIOENCODING": "utf-8"}
     proc = subprocess.Popen(
-        [sys.executable, "-m", "pytr", *args],
+        # --v2: el login web v1 ya no funciona (Trade Republic responde 400 Bad Request).
+        [sys.executable, "-m", "pytr", *args, "--v2"],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env,
     )
     captured = bytearray()
@@ -39,7 +42,34 @@ def run_pytr(args: list[str]) -> tuple[int, str]:
     return proc.wait(), captured.decode("utf-8", errors="replace")
 
 
+PYTR_DIR = Path.home() / ".pytr"
+
+
+def repair_pytr_cookies(pytr_dir: Path = PYTR_DIR) -> list[Path]:
+    """Aparta los ficheros de cookies de pytr que estén corruptos.
+
+    pytr no se recupera si el fichero de cookies tiene una línea mal formada:
+    ``resume_websession`` lanza ``LoadError`` y el login se aborta antes de
+    pedir el 2FA. Solo se comprueba el formato (no se usan ni copian las
+    cookies); los ficheros inválidos se renombran a ``.corrupt`` para que pytr
+    haga un login nuevo. Devuelve los ficheros apartados.
+    """
+    moved = []
+    for path in sorted(pytr_dir.glob("cookies*.txt")):
+        try:
+            MozillaCookieJar(str(path)).load(ignore_discard=True)
+        except (LoadError, OSError):
+            target = path.with_name(path.name + ".corrupt")
+            target.unlink(missing_ok=True)
+            path.rename(target)
+            moved.append(target)
+            print(f"Aviso: el fichero de sesión de pytr estaba dañado; lo he movido a {target}. "
+                  "Tendrás que confirmar el login en la app de nuevo.")
+    return moved
+
+
 def fetch_transactions() -> None:
+    repair_pytr_cookies()
     config.RAW_DIR.mkdir(parents=True, exist_ok=True)
     code, _ = run_pytr([
         "export_transactions",
@@ -49,7 +79,7 @@ def fetch_transactions() -> None:
         str(config.RAW_DIR / "account_transactions.csv"),
     ])
     if code != 0:
-        raise SystemExit("pytr export_transactions ha fallado. ¿Has hecho `pytr login --store_credentials`?")
+        raise SystemExit("pytr export_transactions ha fallado. ¿Has hecho `pytr login --store_credentials --v2`?")
 
 
 def fetch_portfolio() -> float | None:

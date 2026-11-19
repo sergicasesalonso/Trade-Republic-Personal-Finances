@@ -23,8 +23,8 @@ Mis credenciales y mis datos no salen de mi ordenador: pytr guarda la sesión en
 ```bash
 pip install -r requirements.txt
 
-# Solo la primera vez: pytr pide teléfono (+34...), PIN y código 2FA
-pytr login --store_credentials
+# Solo la primera vez: pytr pide teléfono (+34...) y PIN; luego confirmas en la app
+pytr login --store_credentials --v2
 
 # Descargar o actualizar mis movimientos y la cartera
 python -m finanzas.sync
